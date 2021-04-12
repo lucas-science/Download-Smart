@@ -24,7 +24,6 @@ export default class button extends Component {
             console.log(blob)
             window.location.assign(file);
           })
-          
       }
     render(){
         if(this.props.etat === "wait"){

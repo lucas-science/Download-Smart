@@ -47,6 +47,7 @@ export default class App extends Component {
       onSubmit = (event) =>{
         event.preventDefault();
         socket.emit('sendmessage', this.state.url)
+        
       }
     render(){
         return(

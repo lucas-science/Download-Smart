@@ -49,21 +49,31 @@ io.on("connection", (socket) => {
         for (let i = 0; i < playlistItem.length; i++) {
             musique_data.push({ titre: playlistItem[i].title, url: playlistItem[i].url })
         }
-
         let downloaded = []
-        for (let i = 0; i < musique_data.length; i++) {
-            const dl = ytdl(musique_data[i].url)
-            dl.on('end', function(val) {
-                console.log("Dowloaded " + i)
-                downloaded.push(i)
-                socket.emit('telecharger', i)
-                if (downloaded.length === playlistItem.length) {
-                    console.log('la')
-                    socket.emit('dl-activate', true)
-                }
-            });
-            dl.pipe(fs.createWriteStream(__dirname + "/musique/" + musique_data[i].titre + ".mp3"));
-        }
+        const dir = '/musique';
+
+        // create new directory
+        fs.mkdir(__dirname + dir, (err) => {
+            if (err) {
+                throw err;
+            }
+            console.log("Directory is created.");
+            for (let i = 0; i < musique_data.length; i++) {
+                console.log(i)
+                const dl = ytdl(musique_data[i].url)
+                dl.on('end', function(val) {
+                    console.log("Dowloaded " + i)
+                    downloaded.push(i)
+                    socket.emit('telecharger', i)
+                    if (downloaded.length === playlistItem.length) {
+                        console.log('la')
+                        socket.emit('dl-activate', true)
+                    }
+                });
+                dl.pipe(fs.createWriteStream(__dirname + "/musique/" + musique_data[i].titre + ".mp3"));
+            }
+        });
+
     });
     socket.on('disconnect', () => {
         console.log("User disconnect")
@@ -75,29 +85,21 @@ app.use('/test', async(req, res, next) => {
         console.log("done");
         res.download(__dirname + '/muisque2.zip');
         res.status(200);
+        fs.rmdir(__dirname + "/musique", { recursive: true }, (err) => {
+            if (err) {
+                throw err;
+            }
+
+            console.log(`is deleted!`);
+        });
+        fs.rmdir(__dirname + "/musique2.zip", { recursive: true }, (err) => {
+            if (err) {
+                throw err;
+            }
+
+            console.log(` is deleted!`);
+        });
     }, function(err) {
         console.log(err);
     });
 });
-
-
-/*
-
-const spotifyApi = new SpotifyWebApi({
-    clientId: 'c83236ca0dce47f7a9fe9c5c6a47a5d8',
-    clientSecret: 'deae60e658604bef8e55c0226289e529',
-    redirectUri: 'http://localhost:4000/callback'
-});
-
-
-app.get('/callback', spotifylogin.login);
-app.get('/test', (req, res, next) => {
-    spotifyApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE').then(
-        function(data) {
-            console.log('Artist albums', data.body);
-        },
-        function(err) {
-            console.error(err);
-        }
-    );
-})*/
