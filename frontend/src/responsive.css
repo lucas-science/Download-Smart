@@ -1,0 +1,49 @@
+@media only screen and (max-width:1250px) {
+    .part2 {
+        display: none;
+        width: 0%;
+    }
+    .part1 {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width:720px) {
+    .downloaderPlace {
+        width: 100%;
+    }
+    .list-musique {
+        width: 80%;
+    }
+    .nav {
+        font-size: 17px;
+    }
+    .title {
+        font-size: 17px;
+    }
+}
+
+@media only screen and (max-width:500px) {
+    .list-musique {
+        width: 90%;
+    }
+    .send {
+        width: 20%;
+    }
+}
+
+@media only screen and (max-width:442px) {
+    .text-musique {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.904);
+    }
+    .send {
+        width: 22.5%;
+    }
+    .nav {
+        font-size: 15.5px;
+    }
+    .title {
+        font-size: 15.5px;
+    }
+}
