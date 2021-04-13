@@ -81,22 +81,20 @@ io.on("connection", (socket) => {
 });
 
 app.use('/test', async(req, res, next) => {
-    zl.archiveFolder(__dirname + "/musique", __dirname + "/muisque2.zip").then(function() {
+    zl.archiveFolder(__dirname + "/musique", __dirname + "/musique2.zip").then(function() {
         console.log("done");
-        res.download(__dirname + '/muisque2.zip');
+        res.download(__dirname + '/musique2.zip');
         res.status(200);
         fs.rmdir(__dirname + "/musique", { recursive: true }, (err) => {
             if (err) {
                 throw err;
             }
-
             console.log(`is deleted!`);
         });
         fs.rmdir(__dirname + "/musique2.zip", { recursive: true }, (err) => {
             if (err) {
                 throw err;
             }
-
             console.log(` is deleted!`);
         });
     }, function(err) {

@@ -179,6 +179,12 @@ input {
     border-bottom: hidden;
 }
 
+.mess-erreur {
+    color: rgba(255, 255, 255, 0.904);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+}
+
 
 /*Partie 2*/
 

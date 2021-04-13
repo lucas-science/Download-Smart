@@ -16,7 +16,9 @@ export default class App extends Component {
           message:'',
           listmusique:[{}],
           dlmode:"false",
-          telecharger:[]
+          telecharger:[],
+          click:0,
+          message:''
         };
       }
 
@@ -45,8 +47,14 @@ export default class App extends Component {
         })
       }
       onSubmit = (event) =>{
-        event.preventDefault();
-        socket.emit('sendmessage', this.state.url)
+        if(this.state.click === 0){
+          this.setState({click:1})
+          event.preventDefault();
+          socket.emit('sendmessage', this.state.url)
+        } else{
+          event.preventDefault();
+          this.setState({message:"You have already send the url."})
+        }
         
       }
     render(){
@@ -68,7 +76,7 @@ export default class App extends Component {
                   onChange={this.handleInputChange}
                   required
                 />
-                <input className="send" type="submit" value="Search"/>
+                <input className="send" style={this.state.click === 1 ? {"cursor":'not-allowed'} : {"cursor":"pointer"} }  type="submit" value="Search"/>
               </form>
               <ListeMusique list={this.state.listmusique} telecharger={this.state.telecharger}/>
               <DownloadBouton etat={this.state.dlmode}/>
